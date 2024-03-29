@@ -1,6 +1,7 @@
 import User from "../models/user.model.js";
 import bcryptjs from "bcryptjs";
 import { errorHandler } from "../utils/error.js";
+import jwt from "jsonwebtoken";
 
 //siginup
 export const signup = async (req, res, next) => {
@@ -39,7 +40,15 @@ export const signin = async (req, res, next) => {
       return next(errorHandler(404, "Invalid Email or Password"));
 
     //if both password and email are correct authenticate the user
-    //by storing a cookie in the browser using jsonWebTokens(jwt)
+    //by storing a cookie in the browser using jsonWebToken(jwt)
+
+    //create a token based on their mongoDb id's with a secret in the .env
+    const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET);
+
+    const { password: pass, ...joe } = validUser._doc;
+
+    //save token above as a cookie
+    res.cookie("access_token", token, { httpOnly: true }).status(200).json(joe);
   } catch (error) {
     next(error);
   }
