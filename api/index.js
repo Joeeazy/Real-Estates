@@ -1,7 +1,8 @@
-import express from "express";
+import express, { application } from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import userRouter from "./routes/user.route.js";
+import signupRoute from "./routes/signup.route.js";
 dotenv.config();
 
 mongoose
@@ -15,6 +16,9 @@ mongoose
 
 //initialize the app
 const app = express();
+
+//allows sending of JSON data to the server
+app.use(express.json());
 
 //methods to use
 //listen to port 3000
@@ -35,3 +39,5 @@ app.listen(3000, () => {
 // userRouter = routes in user.rote.js
 //api/user/test = route  test(use)
 app.use("/api/user", userRouter);
+
+app.use("/api/auth", signupRoute);
