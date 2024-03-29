@@ -2,6 +2,7 @@ import User from "../models/user.model.js";
 import bcryptjs from "bcryptjs";
 import { errorHandler } from "../utils/error.js";
 
+//siginup
 export const signup = async (req, res, next) => {
   //send data into the server
   const { username, email, password } = req.body;
@@ -19,6 +20,26 @@ export const signup = async (req, res, next) => {
     await newUser.save();
     //create a response
     res.status(201).json("User Created successfully");
+  } catch (error) {
+    next(error);
+  }
+};
+
+//sigining
+export const signin = async (req, res, next) => {
+  const { email, password } = req.body;
+  try {
+    //check if email exists if email exists check password
+    const validUser = await User.findOne({ email });
+    if (!validUser) return next(errorHandler(404, "User Not Found"));
+
+    //check if passwords match
+    const validPassword = bcryptjs.compareSync(password, validUser.password);
+    if (!validPassword)
+      return next(errorHandler(404, "Invalid Email or Password"));
+
+    //if both password and email are correct authenticate the user
+    //by storing a cookie in the browser using jsonWebTokens(jwt)
   } catch (error) {
     next(error);
   }
