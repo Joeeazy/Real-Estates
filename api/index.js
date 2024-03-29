@@ -41,3 +41,21 @@ app.listen(3000, () => {
 app.use("/api/user", userRouter);
 
 app.use("/api/auth", signupRoute);
+
+//middleware to handle errors in apis
+//err = error sent to middleware
+//req = data from client
+//res = response from server to client side
+//next = got to next middleware
+app.use((err, req, res, next) => {
+  //whichever statuscode we get or the sever errpr statuscode
+  const statusCode = err.statusCode || 500;
+  // get the error message
+  const message = err.message || "Internal Server Error";
+
+  return res.status(statusCode).json({
+    success: false,
+    statusCode,
+    message,
+  });
+});
