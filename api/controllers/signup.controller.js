@@ -28,6 +28,7 @@ export const signup = async (req, res, next) => {
 
 //sigining
 export const signin = async (req, res, next) => {
+  //destructure email & password
   const { email, password } = req.body;
   try {
     //check if email exists if email exists check password
@@ -37,7 +38,7 @@ export const signin = async (req, res, next) => {
     //check if passwords match
     const validPassword = bcryptjs.compareSync(password, validUser.password);
     if (!validPassword)
-      return next(errorHandler(404, "Invalid Email or Password"));
+      return next(errorHandler(401, "Invalid Email or Password"));
 
     //if both password and email are correct authenticate the user
     //by storing a cookie in the browser using jsonWebToken(jwt)
@@ -45,10 +46,14 @@ export const signin = async (req, res, next) => {
     //create a token based on their mongoDb id's with a secret in the .env
     const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET);
 
-    const { password: pass, ...joe } = validUser._doc;
+    //remove password from the data from DB
+    const { password: pass, ...rest } = validUser._doc;
 
     //save token above as a cookie
-    res.cookie("access_token", token, { httpOnly: true }).status(200).json(joe);
+    res
+      .cookie("access_token", token, { httpOnly: true })
+      .status(200)
+      .json(rest);
   } catch (error) {
     next(error);
   }
