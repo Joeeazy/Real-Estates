@@ -31,14 +31,14 @@ export const signin = async (req, res, next) => {
   //destructure email & password
   const { email, password } = req.body;
   try {
-    //check if email exists if email exists check password
+    //check if email exists, if email exists check password
     const validUser = await User.findOne({ email });
     if (!validUser) return next(errorHandler(404, "User Not Found"));
 
     //check if passwords match
     const validPassword = bcryptjs.compareSync(password, validUser.password);
     if (!validPassword)
-      return next(errorHandler(401, "Invalid Email or Password"));
+      return next(errorHandler(401, "Invalid Email or Password")); 
 
     //if both password and email are correct authenticate the user
     //by storing a cookie in the browser using jsonWebToken(jwt)
@@ -49,12 +49,12 @@ export const signin = async (req, res, next) => {
     //remove password from the data from DB
     const { password: pass, ...rest } = validUser._doc;
 
-    //save token above as a cookie
+    //save token above as a cookie  httpOnly: true makes cookie safe
     res
       .cookie("access_token", token, { httpOnly: true })
       .status(200)
-      .json(rest);
+      .json(rest); //separared info after removing the password
   } catch (error) {
-    next(error);
+    next(error); 
   }
 };
