@@ -1,13 +1,22 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  signInStart,
+  signInSuccess,
+  siginFailure,
+} from "../redux/user/userSlice";
 
 export default function SignIn() {
   const [signupData, setSignupData] = useState({});
   //error handling state
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
+
+  const { loading, error } = useSelector((state) => state.user);
+  // const [error, setError] = useState(null);
+  // const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   //eventlistener
   const handleChange = (e) => {
     //change signupdata
@@ -23,7 +32,8 @@ export default function SignIn() {
     //prevent refresh page when submitting
     e.preventDefault();
     try {
-      setLoading(true);
+      dispatch(signInStart());
+      //setLoading(true);
       //fetch method to request our api method
       //created a proxy in vite.config.js to enable connection
       const res = await fetch("/api/auth/signin", {
@@ -38,16 +48,19 @@ export default function SignIn() {
       const data = await res.json();
       console.log(data);
       if (data.success === false) {
-        setLoading(false);
-        setError(data.message);
+        // setLoading(false);
+        // setError(data.message);
+        dispatch(siginFailure(data.message));
         return;
       }
-      setLoading(false);
-      setError(null);
+      dispatch(signInSuccess(data));
+      // setLoading(false);
+      // setError(null);
       navigate("/");
     } catch (error) {
-      setLoading(false);
-      setError(error.message);
+      dispatch(siginFailure(data.message));
+      // setLoading(false);
+      // setError(error.message);
     }
   };
 
