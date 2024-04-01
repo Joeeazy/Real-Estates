@@ -20,11 +20,11 @@ export default function Profile() {
 
   const [formData, setFormData] = useState({});
 
-  console.log(photoUploadError);
+  //console.log(photoUploadError);
 
-  console.log(photopercentage);
+  //console.log(photopercentage);
 
-  console.log(formData);
+  //console.log(formData);
 
   useEffect(() => {
     if (photo) {
@@ -73,10 +73,26 @@ export default function Profile() {
         />
         <img
           onClick={() => fileRef.current.click()}
-          src={currentUser.profilePic}
+          src={formData.profilePic || currentUser.profilePic}
           alt="profile"
           className="rounded-full h-24 w-24 object-cover cursor-pointer self-center mt-2"
         />
+        <p className="text-sm self-center ">
+          {photoUploadError ? (
+            <span className="text-red-700">
+              Error image upload (image must be less than 10mb)
+            </span>
+          ) : photopercentage > 0 && photopercentage < 100 ? (
+            <span className="text-slate-700">
+              {" "}
+              {`Uploading ${photopercentage}%`}
+            </span>
+          ) : photopercentage === 100 ? (
+            <span className="text-green-700">Image Successfully Uploaded</span>
+          ) : (
+            ""
+          )}
+        </p>
         <input
           type="text"
           placeholder="username..."
