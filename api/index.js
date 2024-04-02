@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import userRouter from "./routes/user.route.js";
 import signupRoute from "./routes/signup.route.js";
+import cookieParser from "cookie-parser";
 
 dotenv.config();
 
@@ -17,6 +18,9 @@ mongoose
 
 //initialize the app
 const app = express();
+
+//parse cookies to veirfy users
+app.use(cookieParser());
 
 //allows sending of JSON data to the server
 app.use(express.json());
