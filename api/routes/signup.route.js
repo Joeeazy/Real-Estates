@@ -1,5 +1,10 @@
 import express from "express";
-import { signup, signin, google } from "../controllers/signup.controller.js";
+import {
+  signup,
+  signin,
+  google,
+  signOut,
+} from "../controllers/signup.controller.js";
 
 //the router initalized
 const signupRoute = express.Router();
@@ -12,5 +17,8 @@ signupRoute.post("/signin", signin);
 
 //google route = authentication
 signupRoute.post("/google", google);
+
+//signout resquest
+signupRoute.get("/signout", signOut);
 
 export default signupRoute;

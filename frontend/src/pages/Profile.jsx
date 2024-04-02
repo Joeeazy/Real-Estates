@@ -13,6 +13,9 @@ import {
   deleteUserFailure,
   deleteUserStart,
   deleteUserSuccess,
+  signOutUserSuccess,
+  signOutUserFailure,
+  signOutUserStart,
 } from "../redux/user/userSlice";
 
 import { app } from "../firebase";
@@ -122,6 +125,23 @@ export default function Profile() {
     }
   };
 
+  const handleSignoutUser = async () => {
+    try {
+      dispatch(signOutUserStart());
+
+      const res = await fetch("/api/auth/signout");
+
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(deleteUserFailure(data.message)); //signOutUserFailure(data.message));
+        return;
+      }
+      dispatch(deleteUserSuccess(data)); //signOutUserSuccess(data));
+    } catch (error) {
+      dispatch(deleteUserFailure(data.message)); //signOutUserFailure(error.message));
+    }
+  };
+
   return (
     <div className="p-3 max-w-lg mx-auto">
       <h1 className="text-3xl font-semibold text-center my-7">My Profile</h1>
@@ -198,9 +218,14 @@ export default function Profile() {
         >
           Delete Account
         </span>
-        <span className="text-red-700 cursor-pointer">Sign Out</span>
+        <span
+          onClick={handleSignoutUser}
+          className="text-red-700 cursor-pointer"
+        >
+          Sign Out
+        </span>
       </div>
-      <p className="text-red-5700 mt-5">{error ? error : ""}</p>
+      <p className="text-red-700 mt-5">{error ? error : ""}</p>
       <p className="text-green-700 mt-5">
         {updateSuccess ? "User has been successfully updated" : ""}
       </p>
