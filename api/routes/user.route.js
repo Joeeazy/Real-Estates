@@ -1,6 +1,7 @@
 import express from "express";
 import {
   deleteUser,
+  getUserListings,
   test,
   updateUser,
 } from "../controllers/user.controller.js";
@@ -15,5 +16,7 @@ userRouter.get("/test", test);
 userRouter.post("/update/:id", verifyUser, updateUser);
 
 userRouter.delete("/delete/:id", verifyUser, deleteUser);
+
+userRouter.get("/listings/:id/", verifyUser, getUserListings);
 
 export default userRouter;
