@@ -82,6 +82,8 @@ export const getListings = async (req, res, next) => {
   try {
     //pagination??
 
+    //get queries such as limit, startIndex,
+
     //limit the search items by the request query or default = 7
     const limit = parseInt(req.query.limit) || 7;
 
@@ -117,6 +119,7 @@ export const getListings = async (req, res, next) => {
 
     const order = req.query.order || "desc";
 
+    //full query
     const listings = await Listing.find({
       name: { $regex: searchTerm, $options: "i" },
       offer,
@@ -128,6 +131,7 @@ export const getListings = async (req, res, next) => {
       .limit(limit)
       .skip(startIndex);
 
+    //return response
     return res.status(200).json(listings);
   } catch (error) {
     next(error);
