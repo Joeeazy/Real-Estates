@@ -24,6 +24,7 @@ export default function Header() {
       setSearchTerm(urlSearchTerm);
     }
   }, [location.search]);
+
   return (
     <header className="bg-slate-200 shadow-md">
       <div className="flex justify-between items-center max-w-6xl mx-auto p-3">

@@ -8,6 +8,7 @@ import Listing from "./pages/Listing";
 import Profile from "./pages/Profile";
 import Signin from "./pages/Signin";
 import SignUp from "./pages/SignUp";
+import Search from "./pages/Search";
 import UpdateListing from "./pages/UpdateListing";
 
 export default function App() {
@@ -19,6 +20,7 @@ export default function App() {
         <Route path="/sign-in" element={<Signin />} />
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/about" element={<About />} />
+        <Route path="/search" element={<Search />} />
         <Route path="/listing/:listingId" element={<Listing />} />
         <Route element={<PrivateRoute />}>
           <Route path="/profile" element={<Profile />} />
