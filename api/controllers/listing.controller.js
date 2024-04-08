@@ -82,7 +82,11 @@ export const getListings = async (req, res, next) => {
   try {
     //pagination??
 
+<<<<<<< HEAD
     //get queries such as limit, startIndex etc
+=======
+    //get queries such as limit, startIndex,
+>>>>>>> c2b7c6a58ccc484c9507110c2ab34a71e4d5e086
 
     //limit the search items by the request query or default = 7
     const limit = parseInt(req.query.limit) || 7;
