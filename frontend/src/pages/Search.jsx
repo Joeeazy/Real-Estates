@@ -17,7 +17,9 @@ export default function Pages() {
     order: "desc",
   });
 
-  console.log(listings);
+  const [showmore, setShowMore] = useState(false);
+
+  //console.log(listings);
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
@@ -59,6 +61,11 @@ export default function Pages() {
           throw new Error("Failed to fetch listings");
         }
         const data = await res.json();
+        if (data.length > 8) {
+          setShowMore(true);
+        } else {
+          setShowMore(false);
+        }
         setListings(data);
         setLoading(false);
       } catch (error) {
@@ -119,6 +126,19 @@ export default function Pages() {
     navigate(`/search?${searchQuery}`);
   };
 
+  const onShowMoreClick = async () => {
+    const numberOfListings = listings.length;
+    const startIndex = numberOfListings;
+    const urlParams = new URLSearchParams(Location.search);
+    urlParams.set("startIndex", startIndex);
+    const searchQuery = urlParams.toString;
+    const res = await fetch(`/api/listing/get?${searchQuery}`);
+    const data = await res.json();
+    if (data.length < 9) {
+      setShowMore(false);
+    }
+    setListings([...listings, ...data]);
+  };
   return (
     <div className="flex flex-col md:flex-row">
       {/* //right div */}
@@ -243,6 +263,17 @@ export default function Pages() {
             listings.map((listing) => (
               <ListingItem key={listing._id} listing={listing} />
             ))}
+
+          {showmore && (
+            <button
+              className="text-green-700 hover:underline p-7"
+              onClick={() => {
+                onShowMoreClick();
+              }}
+            >
+              Show More
+            </button>
+          )}
         </div>
       </div>
     </div>
