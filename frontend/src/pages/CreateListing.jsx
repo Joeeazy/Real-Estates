@@ -34,7 +34,7 @@ export default function CreateListing() {
     furnished: false,
   });
   const [imageUploadError, setImageUploadError] = useState(false);
-  console.log(formData);
+  //console.log(formData);
 
   const handleImageSubmit = (e) => {
     if (files.length > 0 && files.length + formData.imageUrls.length < 7) {
@@ -181,7 +181,7 @@ export default function CreateListing() {
             className="border p-3 rounded-lg"
             id="name"
             maxLength="62"
-            minLength="10"
+            minLength="5"
             required
             onChange={handleChange}
             value={formData.name}

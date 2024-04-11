@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import ListingItem from "../components/ListingItem";
 
 export default function Pages() {
   const navigate = useNavigate();
@@ -49,14 +50,23 @@ export default function Pages() {
       });
     }
 
-    const fetchListing = async () => {
-      setLoading(true);
-      const searchQuery = urlParams.toString();
-      const res = await fetch(`/api/listings/get?${searchQuery}`);
-      const data = res.json();
-      setListings(data);
-      setLoading(false);
+    const fetchListings = async () => {
+      try {
+        setLoading(true);
+        const searchQuery = urlParams.toString();
+        const res = await fetch(`/api/listing/get?${searchQuery}`);
+        if (!res.ok) {
+          throw new Error("Failed to fetch listings");
+        }
+        const data = await res.json();
+        setListings(data);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching listings:", error);
+        setLoading(false);
+      }
     };
+    fetchListings();
   }, [location.search]);
 
   //console.log(sidebardata);
@@ -97,9 +107,7 @@ export default function Pages() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     const urlParams = new URLSearchParams();
-
     urlParams.set("searchTerm", sidebardata.searchTerm);
     urlParams.set("type", sidebardata.type);
     urlParams.set("parking", sidebardata.parking);
@@ -107,11 +115,10 @@ export default function Pages() {
     urlParams.set("offer", sidebardata.offer);
     urlParams.set("sort", sidebardata.sort);
     urlParams.set("order", sidebardata.order);
-
     const searchQuery = urlParams.toString();
-
     navigate(`/search?${searchQuery}`);
   };
+
   return (
     <div className="flex flex-col md:flex-row">
       {/* //right div */}
@@ -217,8 +224,26 @@ export default function Pages() {
       </div>
 
       {/* //left div */}
-      <div className="text-3xl font-semibold border-b p-3 text-slate-700 mt-5">
-        <h1>Listing Results:</h1>
+      <div className="flex-1">
+        <h1 className="text-3xl font-semibold border-b p-3 text-slate-700 mt-5">
+          Listing results:
+        </h1>
+        <div className="p-7 flex flex-wrap gap-4">
+          {!loading && listings.length === 0 && (
+            <p className="text-xl text-slate-700">No listing found!</p>
+          )}
+          {loading && (
+            <p className="text-xl text-slate-700 text-center w-full">
+              Loading...
+            </p>
+          )}
+
+          {!loading &&
+            listings &&
+            listings.map((listing) => (
+              <ListingItem key={listing._id} listing={listing} />
+            ))}
+        </div>
       </div>
     </div>
   );

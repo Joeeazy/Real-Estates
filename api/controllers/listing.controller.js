@@ -117,21 +117,48 @@ export const getListings = async (req, res, next) => {
 
     const order = req.query.order || "desc";
 
-    //full query
-    const listings = await Listing.find({
+    // Construct a dynamic regex pattern to match both "rent" and "sale" types
+    const typeRegexPattern = "(?=.*rent)|(?=.*sale)";
+    // Construct MongoDB query
+    const query = {
       name: { $regex: searchTerm, $options: "i" },
       offer,
       furnished,
       parking,
-      type,
-    })
+      type: { $regex: typeRegexPattern, $options: "i" },
+    };
+
+    // Log the constructed query
+    //console.log("Constructed MongoDB Query:", query);
+
+    // Fetch listings from database
+    const listings = await Listing.find(query)
       .sort({ [sort]: order })
       .limit(limit)
       .skip(startIndex);
 
-    //return response
+    // Return response
     return res.status(200).json(listings);
   } catch (error) {
     next(error);
   }
 };
+
+//full query
+//     const listings = await Listing.find({
+//       name: { $regex: searchTerm, $options: "i" },
+//       offer,
+//       furnished,
+//       parking,
+//       type,
+//     })
+//       .sort({ [sort]: order })
+//       .limit(limit)
+//       .skip(startIndex);
+
+//     //return response
+//     return res.status(200).json(listings);
+//   } catch (error) {
+//     next(error);
+//   }
+// };
