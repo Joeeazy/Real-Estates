@@ -52,6 +52,7 @@ export default function Pages() {
       });
     }
 
+    //fetch search listings from the backend
     const fetchListings = async () => {
       try {
         setLoading(true);
@@ -112,6 +113,7 @@ export default function Pages() {
     }
   };
 
+  //submits the search results to ui
   const handleSubmit = (e) => {
     e.preventDefault();
     const urlParams = new URLSearchParams();
@@ -126,6 +128,7 @@ export default function Pages() {
     navigate(`/search?${searchQuery}`);
   };
 
+  //showmore functionality when doing search
   const onShowMoreClick = async () => {
     const numberOfListings = listings.length;
     const startIndex = numberOfListings;
