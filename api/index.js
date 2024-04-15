@@ -5,6 +5,7 @@ import userRouter from "./routes/user.route.js";
 import signupRoute from "./routes/signup.route.js";
 import cookieParser from "cookie-parser";
 import listingRouter from "./routes/listing.route.js";
+import path from "path";
 
 dotenv.config();
 
@@ -16,6 +17,8 @@ mongoose
   .catch((err) => {
     console.log(err);
   });
+
+const __dirname = path.resolve();
 
 //initialize the app
 const app = express();
@@ -50,6 +53,12 @@ app.use("/api/auth", signupRoute);
 
 //listing the properties
 app.use("/api/listing", listingRouter);
+
+app.use(express.static(path.join(__dirname, "/frontend/dist")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "frontend", "dist", "index.html"));
+});
 
 // create a middleware to handle errors in apis
 //err = error sent to middleware
