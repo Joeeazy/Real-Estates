@@ -70,16 +70,16 @@ export default function Home() {
 
       {/* swiper */}
       <Swiper navigation>
-        {offerListings &&
-          offerListings.length > 0 &&
-          offerListings.map((listing) => (
+        {rentListings &&
+          rentListings.length > 0 &&
+          rentListings.map((listing) => (
             <SwiperSlide>
               <div
                 style={{
                   background: `url(${listing.imageUrls[0]}) center no-repeat`,
                   backgroundSize: "cover",
                 }}
-                className="h-[900px]"
+                className="h-[700px]"
                 key={listing._id}
               ></div>
             </SwiperSlide>
@@ -87,7 +87,7 @@ export default function Home() {
       </Swiper>
 
       {/* listing results for offer, sale and rent */}
-      <div className="w-full flex justify-center">
+      {/* <div className="w-full flex justify-center">
         <div className="max-w-6xl w-full flex flex-col gap-8 my-10">
           {offerListings && offerListings.length > 0 && (
             <div className="bg-white rounded-md shadow-md p-4">
@@ -109,7 +109,7 @@ export default function Home() {
                     className="flex flex-col justify-between"
                     style={{ maxHeight: "500px", overflow: "hidden" }}
                   >
-                    <ListingItem listing={listing} />
+                    <ListingItem listing={listing} key={listing._id} />
                   </div>
                 ))}
               </div>
@@ -135,7 +135,7 @@ export default function Home() {
                     className="flex flex-col justify-between"
                     style={{ maxHeight: "500px", overflow: "hidden" }}
                   >
-                    <ListingItem listing={listing} />
+                    <ListingItem listing={listing} key={listing._id} />
                   </div>
                 ))}
               </div>
@@ -162,7 +162,8 @@ export default function Home() {
                     style={{ maxHeight: "900px", overflow: "hidden" }}
                   >
                     <ListingItem
-                      listing={listing} // Within the ListingItem component <img src={listing.image} alt={listing.title} style={{ maxWidth: "100%", height: "auto" }} />
+                      listing={listing}
+                      key={listing._id} // Within the ListingItem component <img src={listing.image} alt={listing.title} style={{ maxWidth: "100%", height: "auto" }} />
                     />
                   </div>
                 ))}
@@ -170,9 +171,9 @@ export default function Home() {
             </div>
           )}
         </div>
-      </div>
+      </div> */}
 
-      {/* <div className="max-w-6xl mx-auto p-3 flex flex-col gap-8 my-10">
+      <div className="max-w-6xl mx-auto p-3 flex flex-col gap-8 my-10">
         {offerListings && offerListings.length > 0 && (
           <div className="">
             <div className="my-3">
@@ -233,7 +234,7 @@ export default function Home() {
             </div>
           </div>
         )}
-      </div> */}
+      </div>
     </div>
   );
 }
