@@ -69,9 +69,9 @@ export default function Home() {
 
       {/* swiper */}
       <Swiper navigation>
-        {rentListings &&
-          rentListings.length > 0 &&
-          rentListings.map((listing) => (
+        {offerListings &&
+          offerListings.length > 0 &&
+          offerListings.map((listing) => (
             <SwiperSlide>
               <div
                 style={{
@@ -86,7 +86,83 @@ export default function Home() {
       </Swiper>
 
       {/* listing results for offer, sale and rent */}
-      {/* <div className="w-full flex justify-center">
+
+      {/* offerListings */}
+
+      <div className="max-w-6xl mx-auto p-3 flex flex-col gap-8 my-10">
+        {offerListings && offerListings.length > 0 && (
+          <div className="">
+            <div className="my-3">
+              <h2 className="text-2xl font-semibold text-slate-600">
+                Recent offers
+              </h2>
+              <Link
+                className="text-sm text-blue-800 hover:underline"
+                to={"/search?offer=true"}
+              >
+                Show more offers
+              </Link>
+            </div>
+            <div className="flex flex-wrap gap-4">
+              {offerListings.map((listing) => (
+                <ListingItem listing={listing} key={listing._id} />
+              ))}
+            </div>
+          </div>
+        )}
+        {/* rentListings */}
+        {rentListings && rentListings.length > 0 && (
+          <div className="">
+            <div className="my-3">
+              <h2 className="text-2xl font-semibold text-slate-600">
+                Recent places for rent
+              </h2>
+              <Link
+                className="text-sm text-blue-800 hover:underline"
+                to={"/search?type=rent"}
+              >
+                Show more places for rent
+              </Link>
+            </div>
+            <div className="flex flex-wrap gap-4">
+              {rentListings.map((listing) => (
+                <ListingItem listing={listing} key={listing._id} />
+              ))}
+            </div>
+          </div>
+        )}
+        {/* saleListings */}
+        {saleListings && saleListings.length > 0 && (
+          <div className="">
+            <div className="my-3">
+              <h2 className="text-2xl font-semibold text-slate-600">
+                Recent places for sale
+              </h2>
+              <Link
+                className="text-sm text-blue-800 hover:underline"
+                to={"/search?type=sale"}
+              >
+                Show more places for sale
+              </Link>
+            </div>
+            <div className="flex flex-wrap gap-4">
+              {saleListings.map((listing) => (
+                <ListingItem listing={listing} key={listing._id} />
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+//CHATGPT REFACTOR -ERRORED THO
+{
+  /* listing results for offer, sale and rent */
+}
+{
+  /* <div className="w-full flex justify-center">
         <div className="max-w-6xl w-full flex flex-col gap-8 my-10">
           {offerListings && offerListings.length > 0 && (
             <div className="bg-white rounded-md shadow-md p-4">
@@ -170,72 +246,7 @@ export default function Home() {
             </div>
           )}
         </div>
-      </div> */}
-
-      <div className="max-w-6xl mx-auto p-3 flex flex-col gap-8 my-10">
-        {offerListings && offerListings.length > 0 && (
-          <div className="">
-            <div className="my-3">
-              <h2 className="text-2xl font-semibold text-slate-600">
-                Recent offers
-              </h2>
-              <Link
-                className="text-sm text-blue-800 hover:underline"
-                to={"/search?offer=true"}
-              >
-                Show more offers
-              </Link>
-            </div>
-            <div className="flex flex-wrap flex-row gap-4">
-              {offerListings.map((listing) => (
-                <ListingItem listing={listing} key={listing._id} />
-              ))}
-            </div>
-          </div>
-        )}
-        {rentListings && rentListings.length > 0 && (
-          <div className="">
-            <div className="my-3">
-              <h2 className="text-2xl font-semibold text-slate-600">
-                Recent places for rent
-              </h2>
-              <Link
-                className="text-sm text-blue-800 hover:underline"
-                to={"/search?type=rent"}
-              >
-                Show more places for rent
-              </Link>
-            </div>
-            <div className="flex flex-wrap flex-row gap-4">
-              {rentListings.map((listing) => (
-                <ListingItem listing={listing} key={listing._id} />
-              ))}
-            </div>
-          </div>
-        )}
-        {saleListings && saleListings.length > 0 && (
-          <div className="">
-            <div className="my-3">
-              <h2 className="text-2xl font-semibold text-slate-600">
-                Recent places for sale
-              </h2>
-              <Link
-                className="text-sm text-blue-800 hover:underline"
-                to={"/search?type=sale"}
-              >
-                Show more places for sale
-              </Link>
-            </div>
-            <div className="flex flex-wrap gap-4">
-              {saleListings.map((listing) => (
-                <ListingItem listing={listing} key={listing._id} />
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
-    </div>
-  );
+      </div> */
 }
 
 // import { useEffect } from "react";
