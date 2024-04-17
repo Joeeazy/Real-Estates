@@ -1,5 +1,7 @@
 # Real Estates Web App (MERN Stack)
 
+[Click me to access the project](https://real-estates-c0vr.onrender.com)
+
 This repository contains the source code for a Real Estates web application built using the MERN (MongoDB, Express.js, React.js, Node.js) stack, Firebase, and Tailwind CSS.
 
 ## Overview
@@ -71,7 +73,9 @@ This web application allows users to browse, search, and filter real estate list
 5. Create a .env file in the backend directory and add the following variables:
 
    JWT_SECRET=my_jwt_secret
+
    GOOGLE_CLIENT_ID=my_google_client_id
+
    GOOGLE_CLIENT_SECRET=my_google_client_secret
 
 6. Start the development server:
